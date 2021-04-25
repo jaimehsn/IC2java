@@ -44,7 +44,12 @@ public class Repositorio {
 			if (splitCadena[4].contains("-")) {
 				aux = splitCadena[4].replaceAll("-", "");
 			} else {
-				aux = splitCadena[4];
+				if(splitCadena[4].contains(" ")) {
+					aux = splitCadena[4].replaceAll(" ", "");
+				}else {
+					aux = splitCadena[4];
+				}
+				
 			}
 		}
 		if(!splitCadena[4].equals("")) {

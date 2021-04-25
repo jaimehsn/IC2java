@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Ficheros {
 
-	public List<String> leerFicheros(String path) {
+	public static List<String> leerFicheros(String path) {
 		List<String> res = null;
 		try {
 			res = Files.readAllLines(Paths.get(path));
