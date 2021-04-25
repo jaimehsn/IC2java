@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.time.format.DateTimeFormatter;
+import fp.utils.Checkers;
 
 public class Repositorio {
 
@@ -16,15 +17,16 @@ public class Repositorio {
 	private ArrayList<String> tags;
 
 	public Repositorio(String username, String repoName, String description, LocalDateTime lastUpdate,
-			Language language, Integer starsNumber, ArrayList<String> tags) {
+			Language language, Integer starsNumber, String[] tags) {
 		super();
+		Checkers.check("The number of stars cannot be negative.", starsNumber > 0);
 		this.username = username;
 		this.repoName = repoName;
 		this.description = description;
 		this.lastUpdate = lastUpdate;
 		this.language = language;
 		this.starsNumber = starsNumber;
-		this.tags = tags;
+		this.tags = new ArrayList<String>(Arrays.asList(tags));
 	}
 
 	public Repositorio(String cadena) {
@@ -38,7 +40,6 @@ public class Repositorio {
 		
 		if (splitCadena[4].contains("+")) {
 			aux = splitCadena[4].substring(0, 1) + "PLUSPLUS";
-			System.out.println(aux);
 		} else {
 			if (splitCadena[4].contains("-")) {
 				aux = splitCadena[4].replaceAll("-", "");
@@ -57,7 +58,7 @@ public class Repositorio {
 		} else {
 			aux = splitCadena[5].replaceAll("k", "000");
 		}
-		this.starsNumber = Integer.parseInt(aux);
+		this.starsNumber = Integer.parseInt(aux.replace(".", ""));
 		this.tags = new ArrayList<String>(Arrays.asList(splitCadena[6].split(",")));
 	}
 
@@ -116,12 +117,24 @@ public class Repositorio {
 	public void setTags(ArrayList<String> tags) {
 		this.tags = tags;
 	}
+	
+	public Boolean getIsCode() {
+		boolean res = true;
+		if(this.language == Language.NOPROLAN) {
+			res = false;
+		}
+		return res;
+	}
+	
+	public String getUrl() {
+		return "https://github.com/" + this.getUsername() + "/" + this.getRepoName();
+	}
 
 	@Override
 	public String toString() {
-		return "Repositorio [username=" + username + ", repoName=" + repoName + ", description=" + description
-				+ ", lastUpdate=" + lastUpdate + ", language=" + language + ", starsNumber=" + starsNumber + ", tags="
-				+ tags + "]";
+		return "Repositorio Obj\n User Name=" + username + ",\n Repository Name=" + repoName + ",\n description=" + description
+				+ ",\n lastUpdate=" + lastUpdate + ",\n language=" + language + ",\n starsNumber=" + starsNumber + ",\n tags="
+				+ tags;
 	}
 
 	@Override
