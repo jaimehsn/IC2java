@@ -10,13 +10,20 @@ public class TestFactoriaRepositorios {
 	}
 
 	private static void testCreacionRepositorios() {
+		
 		System.out.println("\nTEST de la creacion de repositorios");
+		
 		try {
+			
 			Repositorios repositorios = FactoriaRepositorios.reedRepos("data/TopStaredRepositories.csv");
 			System.out.println("   REPOSITORIOS: "+ repositorios);
+			
 		} catch(Exception e) {
+			
 			System.out.println("Excepción capturada:\n   " + e);	
+			
 		}
+		
 	}
 
 }

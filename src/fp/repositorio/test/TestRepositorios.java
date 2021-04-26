@@ -7,6 +7,7 @@ import fp.repositorio.Repositorio;
 import fp.repositorio.Repositorios;
 
 public class TestRepositorios {
+	
 	private static String[] arrString = { "react", "nodejs", "javascript", "d3", "teachers", "community", "education",
 			"programming", "math" };
 	private static Repositorio repositorio1 = new Repositorio("test1", "test2", "test3", LocalDateTime.now(),
@@ -31,12 +32,17 @@ public class TestRepositorios {
 	private static Repositorios repositorios = new  Repositorios();
 	
 	public static void main(String[] args) {
+		
 		testConstructor();
+		
 	}
 	
 	private static void testConstructor() {
+		
 		System.out.println("\nTEST del Constructor");
+		
 		try {
+			
 			repositorios = new Repositorios();
 			repositorios.addRepo(repositorio1);
 			repositorios.addRepo(repositorio2);
@@ -51,9 +57,13 @@ public class TestRepositorios {
 			System.out.print(repositorio1);
 
 			System.out.println("  REPOSITORIOS: "+ repositorios + "\n");
+			
 		} catch(Exception e) {
+			
 			System.out.println("Excepción capturada:\n   " + e);	
+			
 		}
+		
 	}
 
 }
