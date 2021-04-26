@@ -9,7 +9,7 @@ public class TestRepositorio {
 
 	public static void main(String[] args) {
 		testConstructor();
-
+		testComparaciones();
 	}
 
 	public static void testConstructor() {
@@ -43,6 +43,85 @@ public class TestRepositorio {
 		} catch (Exception e) {
 			System.out.println("Excepción capturada:\n   " + e);
 		}
+	}
+	
+	public static void testPropiedadesDeriv() {
+		System.out.println("\n\n\nTEST del las propiedades derivadas de las clase REPOSITORIO");
+		try {
+			String[] tags = { "react", "nodejs", "javascript", "d3", "teachers", "community", "education",
+					"programming", "math" };
+			Repositorio repositorio = new Repositorio("freeCodeCamp", "freeCodeCamp", "Comentario", LocalDateTime.now(),
+					Language.CPLUSPLUS, 10000, tags);
+			System.out.print("	REPO URL: " + repositorio.getUrl());
+		} catch (Exception e) {
+			System.out.println("Excepción capturada:\n   " + e);
+		}
+		
+		
+		try {
+			String[] tags = { "react", "nodejs", "javascript", "d3", "teachers", "community", "education",
+					"programming", "math" };
+			Repositorio repositorio = new Repositorio("freeCodeCamp", "freeCodeCamp", "Comentario", LocalDateTime.now(),
+					Language.CPLUSPLUS, 10000, tags);
+			System.out.print("	REPO CONTIENE CODIGO?: " + repositorio.getIsCode());
+		} catch (Exception e) {
+			System.out.println("Excepción capturada:\n   " + e);
+		}
+		
+		
+	}
+	
+	public static void testComparaciones() {
+		System.out.println("\n\n\nTEST del las propiedades de comparacion de las clase REPOSITORIO");
+		try {
+			String[] tags = { "react", "nodejs", "javascript", "d3", "teachers", "community", "education",
+					"programming", "math" };
+			Repositorio repositorio = new Repositorio("freeCodeCamp", "freeCodeCamp", "Comentario", LocalDateTime.now(),
+					Language.CPLUSPLUS, 10000, tags);
+			Repositorio repositorio2 = new Repositorio("freeCodeCamp", "freeCodeCamp", "Comentario", LocalDateTime.now(),
+					Language.CPLUSPLUS, 10000, tags);
+			System.out.print("	REPO EQUALS?: " + repositorio.equals(repositorio2));
+		} catch (Exception e) {
+			System.out.println("Excepción capturada:\n   " + e);
+		}
+		
+		
+		try {
+			String[] tags = { "react", "nodejs", "javascript", "d3", "teachers", "community", "education",
+					"programming", "math" };
+			Repositorio repositorio = new Repositorio("freeCodeCamp", "freeCodeCamp", "Comentario", LocalDateTime.now(),
+					Language.CPLUSPLUS, 10000, tags);
+			Repositorio repositorio2 = new Repositorio("OtroCosa", "freeCodeCamp", "Comentario", LocalDateTime.now(),
+					Language.CPLUSPLUS, 10000, tags);
+			System.out.print("	REPO EQUALS? (Cambio en un username): " + repositorio.equals(repositorio2));
+		} catch (Exception e) {
+			System.out.println("Excepción capturada:\n   " + e);
+		}
+		
+		try {
+			String[] tags = { "react", "nodejs", "javascript", "d3", "teachers", "community", "education",
+					"programming", "math" };
+			Repositorio repositorio = new Repositorio("freeCodeCamp", "freeCodeCamp", "Comentario", LocalDateTime.now(),
+					Language.CPLUSPLUS, 10000, tags);
+			Repositorio repositorio2 = new Repositorio("freeCodeCamp", "freeCodeCamp", "Comentario", LocalDateTime.now(),
+					Language.CPLUSPLUS, 10000, tags);
+			System.out.print("	REPO == ?(instancias distintas): " + (repositorio == repositorio2));
+		} catch (Exception e) {
+			System.out.println("Excepción capturada:\n   " + e);
+		}
+		
+		try {
+			String[] tags = { "react", "nodejs", "javascript", "d3", "teachers", "community", "education",
+					"programming", "math" };
+			Repositorio repositorio = new Repositorio("freeCodeCamp", "freeCodeCamp", "Comentario", LocalDateTime.now(),
+					Language.CPLUSPLUS, 10000, tags);
+			Repositorio repositorio2 = repositorio;
+			System.out.print("	REPO == ?: " + (repositorio == repositorio2));
+		} catch (Exception e) {
+			System.out.println("Excepción capturada:\n   " + e);
+		}
+		
+		
 	}
 
 }
