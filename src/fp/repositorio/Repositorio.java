@@ -113,7 +113,7 @@ public class Repositorio implements Comparable<Repositorio> {
 		Checkers.check("The number of stars cannot be negative.", Integer.parseInt(aux.replace(".", "")) > 0);
 		this.starsNumber = Integer.parseInt(aux.replace(".", ""));
 
-		this.tags = new ArrayList<String>(Arrays.asList(splitCadena[6].split(",")));
+		this.tags = new ArrayList<String>(Arrays.asList(splitCadena[6].split("/")));
 
 	}
 
