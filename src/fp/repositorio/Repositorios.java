@@ -133,7 +133,7 @@ public class Repositorios {
 	 * 
 	 */
 
-	public Long contadorLenguajes(String tag) {
+	public Long counterLanguages(String tag) {
 		return repositorios.stream().filter(x -> x.getTags().contains(tag)).count();
 	}
 

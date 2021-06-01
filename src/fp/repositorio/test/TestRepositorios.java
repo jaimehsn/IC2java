@@ -114,7 +114,7 @@ public class TestRepositorios {
 			List<String> tags = repositorios2.getAllTags();
 
 			for (String tag : tags) {
-				System.out.println("Numero de lenguanes " + tag + ": " + repositorios2.contadorLenguajes(tag));
+				System.out.println("Numero de lenguanes " + tag + ": " + repositorios2.counterLanguages(tag));
 			}
 
 		} catch (Exception e) {
