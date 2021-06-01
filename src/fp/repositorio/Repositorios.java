@@ -1,15 +1,11 @@
 package fp.repositorio;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -64,23 +60,13 @@ public class Repositorios {
 	}
 
 	/**
-	 * @param Tipo enumerado; Lenguaje.
+	 *
+	 * Metodo que crea un diccionario con los lenguajes por clave y el conteo de la
+	 * aparicion de los mismos, realizado como un metodo tradicional.
 	 * 
-	 *             Metodo de prueba contador
+	 * @return Diccionario de tipo clave lenguaje y valor entero
 	 * 
 	 */
-
-	public Integer contadorLenguajes(Language lenguaje) {
-		Integer cont = 0;
-
-		for (Repositorio repositorio : repositorios) {
-			if (lenguaje.equals(repositorio.getLanguage())) {
-				cont++;
-			}
-		}
-		return cont;
-
-	}
 
 	public Map<Language, Integer> getRepositorysbyLanguage() {
 		Map<Language, Integer> res = new HashMap<>();
@@ -95,6 +81,15 @@ public class Repositorios {
 		return res;
 
 	}
+
+	/**
+	 *
+	 * Metodo que crea un diccionario con los lenguajes por clave y la media
+	 * aritmetica de los mismos.
+	 * 
+	 * @return Diccionario de tipo clave lenguaje y valor numericon con decimales
+	 * 
+	 */
 
 	public Map<Language, Double> getAverageStarsbyLanguage() {
 		Map<Language, Double> res = new HashMap<>();
@@ -116,72 +111,140 @@ public class Repositorios {
 		return res;
 	}
 
-	
+	/**
+	 *
+	 * Metodo que devuelve un lista de cadenas que son todas las tags que contiene
+	 * el fichero csv.
+	 * 
+	 * @return Lista de cadenas
+	 * 
+	 */
 
-	public Boolean haveStars(Integer minValue) {
-		return repositorios.stream()
+	public List<String> getAllTags() {
+		return repositorios.stream().flatMap(x -> x.getTags().stream()).distinct().collect(Collectors.toList());
+	}
+
+	/**
+	 *
+	 * Metodo que devuelve una variable de timpo entero largo haciendo referencia al
+	 * conteo de lenguajes que contiene una tag determinada.
+	 * 
+	 * @return Numero entero largo
+	 * 
+	 */
+
+	public Long contadorLenguajes(String tag) {
+		return repositorios.stream().filter(x -> x.getTags().contains(tag)).count();
+	}
+
+	/**
+	 *
+	 * Funcion que comprueba aquellos repositorios desarrollados en un lenguaje
+	 * cumpliendo todos un valor minimo de estrellas.
+	 * 
+	 * @return Variable booleana.
+	 * 
+	 */
+
+	public Boolean haveStars(Integer minValue, Language lan) {
+		return repositorios.stream().filter(x -> x.getLanguage().equals(lan))
 				.allMatch(x -> x.getStarsNumber() > minValue);
 	}
-	
-	public Set<String> getAllTags(){
-		return repositorios.stream()
-				.flatMap(list -> list.getTags().stream())
-				.collect(Collectors.toSet());
-	}
-	
-//	Funcion que deternina si existen repositorios con una deterniada tag con un unbral de strellas
-	public Boolean existRepoTagQuantityStars(String tag,Integer quantity) {
-		return repositorios.stream()
+
+	/**
+	 *
+	 * Funcion que deternina si existen algunos repositorios con una deterniada tag
+	 * con un unbral de strellas en un year determinado.
+	 * 
+	 * @return Variable booleana.
+	 * 
+	 */
+
+	public Boolean existRepoTagQuantityStars(String tag, Integer quantity, Integer year) {
+		return repositorios.stream().filter(x -> x.getLastUpdate().getYear() == year)
 				.anyMatch(x -> x.getTags().contains(tag) && x.getStarsNumber() > quantity);
 	}
-	
-//	Funcion que comprueba si todos los repositorios que contiene una deternminada tag estangrados con un lenguage especifico
-	public Boolean existRepoTagLanguage(String tag,Language language) {
-		return repositorios.stream()
-				.filter(x -> x.getTags().contains(tag))
+
+	/**
+	 *
+	 * Funcion que comprueba si todos los repositorios que contiene una deternminada
+	 * tag estan desarrollados con un lenguage especifico
+	 * 
+	 * @return Variable booleana.
+	 * 
+	 */
+
+	public Boolean existRepoTagLanguage(String tag, Language language) {
+		return repositorios.stream().filter(x -> x.getTags().contains(tag))
 				.allMatch(x -> x.getLanguage().equals(language));
 	}
-	
-//	Funcion que muestran los distintos lenguajes que se usasn para una deterninada tag.
-	public List<Language> getLanguageDistintOfTag(String tag){
-		return repositorios.stream()
-				.filter(x -> x.getTags().contains(tag))
-				.map(x -> x.getLanguage())
-				.distinct()
-				.collect(Collectors.toList());
+
+	/**
+	 *
+	 * Funcion que muestran los distintos lenguajes que se usan para una deterninada
+	 * tag por ordena natural.
+	 * 
+	 * @return Lista de lenguajes.
+	 * 
+	 */
+
+	public List<Language> getLanguageDistintOfTag(String tag) {
+		return repositorios.stream().filter(x -> x.getTags().contains(tag)).map(x -> x.getLanguage()).distinct()
+				.sorted().collect(Collectors.toList());
 	}
 
+	/**
+	 *
+	 * Funcion que saca los nombres de los repositorios que contienen una etiqueta y
+	 * un determinado lenguaje, haciendo una ordenacion por numero de strellas.
+	 * 
+	 * 
+	 * @return Conjunto de cadenas con los nombres del repositorio.
+	 * 
+	 */
 
-	
-//	Funcion que saca los nombres de los repositorios que contienen una etiqueta y un determinado lenguaje
-	public Set<String> getfechasPrueba(String tag, Language language, Integer limit) {
-		return repositorios.stream()
-				.filter(x -> x.getTags().contains(tag) && x.getLanguage().equals(language))
-				.sorted(Comparator.comparing(Repositorio::getStarsNumber).reversed())
-				.map(x -> x.getRepoName())
-				.limit(limit)
-				.collect(Collectors.toSet());
+	public Set<String> getNamesByTagLanguage(String tag, Language language, Integer limit) {
+		return repositorios.stream().filter(x -> x.getTags().contains(tag) && x.getLanguage().equals(language))
+				.sorted(Comparator.comparing(Repositorio::getStarsNumber).reversed()).map(x -> x.getRepoName())
+				.limit(limit).collect(Collectors.toSet());
 	}
-	
-//	Funcion que obtiene listas de repositorios agrupado por el núnmero de strellas y discriminando por el lenguaje.
+
+	/**
+	 *
+	 * Funcion que obtiene listas de repositorios agrupado por el núnmero de
+	 * strellas y discriminando por el lenguaje.
+	 * 
+	 * 
+	 * @return Diccionario con clave de enteros que hacen referencia al numero de
+	 *         estrellas y valor listas de repositorios.
+	 * 
+	 */
+
 	public Map<Integer, List<Repositorio>> getRepositoryLanguageByStars(Language language) {
-		return repositorios.stream()
-				.filter(x -> x.getLanguage().equals(language))
+		return repositorios.stream().filter(x -> x.getLanguage().equals(language))
 				.collect(Collectors.groupingBy(Repositorio::getStarsNumber));
 	}
-//	Funcion que debuelbe la mediea aritmetica del numero de strellas del repositorio agrupado por el lenguaje
-	public Map<Language,Double> getAverageStarsbyLanguageStream(){
-		return repositorios.stream()
-				.collect(Collectors.groupingBy(Repositorio::getLanguage,Collectors.averagingDouble(Repositorio::getStarsNumber)));
-	}
-	
-//	Funcion que debuelbe el numero de repositorios agrupados por tag y
-	
-//	public Map<String,Long> getTagCount(){
-//		return repositorios.stream()
-//				.flatMap(x -> x.getTags().stream()).collect(Collectors.counting(Repositorio::getTags));
-//	}
-	
 
+	/**
+	 *
+	 * Funcion que debuelbe la mediea aritmetica del numero de strellas del
+	 * repositorio agrupado por el lenguaje.
+	 * 
+	 * 
+	 * @return Diccionario con clave de tipo Language y valor numerico con decimales
+	 *         de la media de strellas
+	 * 
+	 */
+
+//	Funcion que debuelbe la mediea aritmetica del numero de strellas del repositorio agrupado por el lenguaje
+	public Map<Language, Double> getAverageStarsbyLanguageStream() {
+		return repositorios.stream().collect(Collectors.groupingBy(Repositorio::getLanguage,
+				Collectors.averagingDouble(Repositorio::getStarsNumber)));
+	}
+
+	@Override
+	public String toString() {
+		return "Repositorios [repositorios=" + repositorios + "]";
+	}
 
 }

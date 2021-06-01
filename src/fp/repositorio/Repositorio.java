@@ -16,6 +16,17 @@ public class Repositorio implements Comparable<Repositorio> {
 	private Integer starsNumber;
 	private ArrayList<String> tags;
 
+	public Repositorio() {
+		super();
+		this.username = "";
+		this.repoName = "";
+		this.description = "";
+		this.lastUpdate = LocalDateTime.now();
+		this.language = Language.NOPROLAN;
+		this.starsNumber = 0;
+		this.tags = new ArrayList<String>();
+	}
+
 	/**
 	 * @param userName    Cadena con el nombre de usuario del repositorio remoto.
 	 * @param repoName    Cadena con el nombre del repositorio.
@@ -34,7 +45,13 @@ public class Repositorio implements Comparable<Repositorio> {
 			Language language, Integer starsNumber, String[] tags) {
 
 		super();
+
 		Checkers.check("The number of stars cannot be negative.", starsNumber > 0);
+		Checkers.check("The name cannot contain a blank space", !username.contains(" "));
+		Checkers.check("The date cannot be future", LocalDateTime.now().isAfter(lastUpdate));
+		Checkers.check("Cannot contain more than 200 letters and contain commas",
+				description.length() < 200 && !description.contains(","));
+
 		this.username = username;
 		this.repoName = repoName;
 		this.description = description;
@@ -59,6 +76,11 @@ public class Repositorio implements Comparable<Repositorio> {
 		super();
 
 		String[] splitCadena = str.split(",");
+		Checkers.check("The name cannot contain a blank space", !splitCadena[0].contains(" "));
+		Checkers.check("The date cannot be future", LocalDateTime.now()
+				.isAfter(LocalDateTime.parse(splitCadena[3], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+		Checkers.check("Cannot contain more than 200 letters and contain commas",
+				splitCadena[2].length() < 200 && !splitCadena[2].contains(","));
 
 		this.username = splitCadena[0];
 		this.repoName = splitCadena[1];
@@ -128,7 +150,7 @@ public class Repositorio implements Comparable<Repositorio> {
 	}
 
 	public void setUsername(String username) {
-
+		Checkers.check("The name cannot contain a blank space", !username.contains(" "));
 		this.username = username;
 
 	}
@@ -152,7 +174,8 @@ public class Repositorio implements Comparable<Repositorio> {
 	}
 
 	public void setDescription(String description) {
-
+		Checkers.check("Cannot contain more than 200 letters and contain commas",
+				description.length() < 200 && !description.contains(","));
 		this.description = description;
 
 	}
@@ -188,7 +211,7 @@ public class Repositorio implements Comparable<Repositorio> {
 	}
 
 	public void setStarsNumber(Integer starsNumber) {
-
+		Checkers.check("The number of stars cannot be negative.", starsNumber > 0);
 		this.starsNumber = starsNumber;
 
 	}
@@ -199,9 +222,9 @@ public class Repositorio implements Comparable<Repositorio> {
 
 	}
 
-	public void setTags(ArrayList<String> tags) {
+	public void setTags(String[] tags) {
 
-		this.tags = tags;
+		this.tags = new ArrayList<String>(Arrays.asList(tags));
 
 	}
 

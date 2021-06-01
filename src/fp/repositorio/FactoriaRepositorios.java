@@ -36,25 +36,39 @@ public class FactoriaRepositorios {
 	 *             en el todos los objetos procedentes del fichero .csv, haciendo
 	 *             uso del metodo anterior parseRepo.
 	 * 
-	 * @return repositorios Debuelbe un objeto de la clase Repositorios.
+	 * @return repositorios Debuelbe un objeto de ltipo Repositorios.
 	 * 
 	 */
 
-//	public static Repositorios reedRepos(String path) {
-//
-//		List<String> rows = Ficheros.leerFicheros(path);
-//
-//		Repositorios repositorios = new Repositorios();
-//
-//		for (String row : rows) {
-//			Repositorio repo = parseRepo(row);
-//			repositorios.addRepo(repo);
-//		}
-//
-//		return repositorios;
-//
-//	}
 	public static Repositorios reedRepos(String path) {
+
+		List<String> rows = Ficheros.leerFicheros(path);
+
+		Repositorios repositorios = new Repositorios();
+
+		for (String row : rows) {
+			Repositorio repo = parseRepo(row);
+			repositorios.addRepo(repo);
+		}
+
+		return repositorios;
+
+	}
+	
+	/**
+	 * @param path Variable de tipo cadena, Contiene la ruta del archivo .csv de
+	 *             donde extrae la informacion.
+	 * 
+	 * 
+	 *             Metodo de clase que crea un stream de tipo Repositorios e inserta
+	 *             en el todos las lineas procedentes del fichero .csv, haciendo
+	 *             uso del metodo parseRepo.
+	 * 
+	 * @return Repositorios Debuelbe un stream de tipo Repositorios.
+	 * 
+	 */
+	
+	public static Repositorios reedReposStream(String path) {
 		Repositorios res = null;
 		try {
 			Stream<Repositorio> Rp = Files.lines(Paths.get(path))
@@ -63,7 +77,6 @@ public class FactoriaRepositorios {
 			res = new Repositorios(Rp);
 
 		} catch (IOException e) {
-			// TODO: handle exception
 			System.out.print("File not found: " + path);
 			e.printStackTrace();
 		}
