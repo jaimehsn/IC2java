@@ -52,6 +52,9 @@ public class TestRepositorios {
 		testGetAllTags();
 		testConstructorNormal();
 		testConstructorSream();
+		testGetMostUsedLanguageByTag();
+		testGetNumberLanguagesbyTag();
+		testGetMinOfStars();
 
 	}
 
@@ -248,11 +251,38 @@ public class TestRepositorios {
 	}
 
 	private static void testGetAllTags() {
-		System.out.println("\n\n\n************TEST comprueba que se obtiene todas las tagas que existen en le archivo csv REPOSITORIO************");
+		System.out.println("\n\n\n************TEST comprueba que se obtiene todas las tagas que existen en el archivo csv REPOSITORIO************");
 		try {
 			System.out.print(repositorios2.getAllTags());
 		} catch (Exception e) {
 
+			System.out.println("Excepción capturada:\n   " + e);
+		}
+	}
+	
+	private static void testGetNumberLanguagesbyTag() {
+		System.out.println("\n\n\n************TEST retorna un diccionario con las veces que apareve una etiqueta agrupadas por lenguage del archivo csv REPOSITORIO************");
+		try {
+			Utiles.show(repositorios2.getNumberLanguagesbyTag("web"));
+		} catch (Exception e) {
+			System.out.println("Excepción capturada:\n   " + e);
+		}
+	}
+	
+	private static void testGetMostUsedLanguageByTag() {
+		System.out.println("\n\n\n************TEST retorna el lenguage más usado para una etiqueta especifica en el archivo csv REPOSITORIO************");
+		try {
+			System.out.println(repositorios2.getMostUsedLanguageByTag("svg"));
+		} catch (Exception e) {
+			System.out.println("Excepción capturada:\n   " + e);
+		}
+	}
+	
+	private static void testGetMinOfStars() {
+		System.out.println("\n\n\n************TEST test que comprueba que devuelve el lengaje con menor media de estrellas del archivo csv REPOSITORIO************");
+		try {
+			System.out.println(repositorios2.getMinOfStars());
+		} catch (Exception e) {
 			System.out.println("Excepción capturada:\n   " + e);
 		}
 	}
